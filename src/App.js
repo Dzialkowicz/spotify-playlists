@@ -64,13 +64,14 @@ class HoursCounter extends Component{
     );
   }
 }
-
+//Filter usually should be done on the server side
 class Filter extends Component{
   render(){
     return(
       <div>
         <img/>
-        <input type="text"/>
+        <input type="text" onKeyUp={event =>
+          this.props.onTextChange(event.target.value)}/>
       </div>
     );
   }
@@ -97,7 +98,9 @@ class App extends Component {
   constructor(){
     super();
     //serverData state needs to be created in constructor
-    this.state = {serverData: {} }
+    this.state = {
+      serverData: {},
+      filterString: '' }
   }
   componentDidMount(){
     //initializing server data with fakeserver data at the start
@@ -105,6 +108,7 @@ class App extends Component {
     setTimeout(() =>{
     this.setState({serverData : fakeServerData});
     },1000);
+    
   }
   render() {
     return (
@@ -121,9 +125,12 @@ class App extends Component {
       <HoursCounter playlists={//if we have the user, it will get the user playlists
         this.state.serverData.user.playlists 
         }/>
-      <Filter/>
+      <Filter onTextChange={text => this.setState({filterString: text})}/>
       {//map - it does for each, but with rendering a new object based on transformation we've specified
-        this.state.serverData.user.playlists.map((playlist) =>
+        this.state.serverData.user.playlists.filter( playlist =>
+          playlist.name.toLowerCase().includes(
+            this.state.filterString.toLowerCase())
+        ).map((playlist) =>
           <Playlist playlist={playlist}/>
         )} 
       </div> : <h1>Loading...</h1> //Display Loading if data is not fetched yet
