@@ -78,11 +78,16 @@ class Filter extends Component{
 
 class Playlist extends Component{
   render(){
+    let playlist = this.props.playlist;
     return(
       <div style ={{...defaultStyle, width : '25%', display: 'inline-block'}}>
         <img/>
-        <h3>Playlist Name</h3>
-          <ul><li>Song 1</li><li>Song 2</li><li>Song 3</li><li>Song 4</li></ul>
+        <h3>{playlist.name}</h3>
+          <ul>
+            {playlist.songs.map( song =>
+            <li>{song.name}</li>
+            )}
+          </ul>
       </div>
     );
   }
@@ -117,10 +122,10 @@ class App extends Component {
         this.state.serverData.user.playlists 
         }/>
       <Filter/>
-      <Playlist/>
-      <Playlist/>
-      <Playlist/>
-      <Playlist/>
+      {//map - it does for each, but with rendering a new object based on transformation we've specified
+        this.state.serverData.user.playlists.map((playlist) =>
+          <Playlist playlist={playlist}/>
+        )} 
       </div> : <h1>Loading...</h1> //Display Loading if data is not fetched yet
       }
       </div>
