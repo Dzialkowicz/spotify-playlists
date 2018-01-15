@@ -111,6 +111,11 @@ class App extends Component {
     
   }
   render() {
+    let playlistsToRender = this.state.serverData.user ? 
+    this.state.serverData.user.playlists.filter(playlist =>
+      playlist.name.toLowerCase().includes(
+        this.state.filterString.toLowerCase()
+      )) : [];
     return (
       <div className="App">
       {this.state.serverData.user ? //If the data will be fetched, display whole site
@@ -118,19 +123,14 @@ class App extends Component {
       <h1>
       {//if we have the user, it will get the user name
       this.state.serverData.user.name
-      } Title</h1>
-      <PlaylistCounter playlists={//if we have the user, it will get the user playlists
-        this.state.serverData.user.playlists 
-        }/>
-      <HoursCounter playlists={//if we have the user, it will get the user playlists
-        this.state.serverData.user.playlists 
-        }/>
+      }'s plejlisty</h1>
+      <PlaylistCounter //if we have the user, it will get the user playlists
+        playlists={playlistsToRender}/>
+      <HoursCounter //if we have the user, it will get the user playlists
+        playlists={playlistsToRender}/>
       <Filter onTextChange={text => this.setState({filterString: text})}/>
       {//map - it does for each, but with rendering a new object based on transformation we've specified
-        this.state.serverData.user.playlists.filter( playlist =>
-          playlist.name.toLowerCase().includes(
-            this.state.filterString.toLowerCase())
-        ).map((playlist) =>
+        playlistsToRender.map((playlist) =>
           <Playlist playlist={playlist}/>
         )} 
       </div> : <h1>Loading...</h1> //Display Loading if data is not fetched yet
