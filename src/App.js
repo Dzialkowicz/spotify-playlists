@@ -103,11 +103,7 @@ class App extends Component {
       filterString: '' }
   }
   componentDidMount(){
-    //initializing server data with fakeserver data at the start
-    //setting the timeout to 1 second to show that state auto updates after data is updated
-    setTimeout(() =>{
-    this.setState({serverData : fakeServerData});
-    },1000);
+   
     
   }
   render() {
@@ -133,7 +129,8 @@ class App extends Component {
         playlistsToRender.map((playlist) =>
           <Playlist playlist={playlist}/>
         )} 
-      </div> : <h1>Loading...</h1> //Display Loading if data is not fetched yet
+      </div> : <button onClick={()=> window.location = 'http://localhost:8888/login'}
+       style={{padding: '20px', 'font-size':'50px', 'margin-top' : '20px'}}>Sign to Spotify</button> //Display Loading if data is not fetched yet
       }
       </div>
     );
