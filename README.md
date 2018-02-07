@@ -1,5 +1,12 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+
+BTW:
+To run on dev:
+Open two terminal screens and npm start on localhost:3000
+after that, set on the second SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET and then npm start on localhost:8888
+
+
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
