@@ -1,47 +1,27 @@
 import React, { Component } from 'react';
+import 'reset-css/reset.css';
 import './App.css';
 import queryString from 'query-string'
 
 let someColor = '#ff0000';
 let defaultStyle = {
-  color: someColor
+  color: someColor,
+  'font-family': 'Papyrus'
 };
-let fakeServerData = {
-  user: {
-    name: 'Juba',
-    playlists: [
-      {
-        name: 'My Favourites',
-        songs: [{name: 'Parostatkiem',duration: 1234},
-                {name: 'Biala Armia',duration: 1355},
-                {name: 'Zycie',duration: 4644}]
-      },
-      {
-        name: 'My mums best songs',
-        songs: [{name: 'Taka', duration: 1211}, 
-                {name: 'Szalona Piesn', duration: 1111}, 
-                {name: 'Beat it', duration: 1122}]
-      },
-      {
-        name: 'My dads best songs',
-        songs: [{name: 'jakies', duration: 34555}, 
-                {name: 'dziwne', duration: 3453}, 
-                {name: 'piosnki', duration: 345}]
-      },
-      {
-        name: 'My Agas best songs',
-        songs: [{name: 'Despasito', duration: 1211}, 
-                {name: 'Despasito 123', duration: 66544}, 
-                {name: 'Despasito mix', duration: 4535}]
-      }
-    ]
-  }
-};
+
+let counterStyle = { ...defaultStyle,
+  width: "40%",
+      display: "inline-block",
+      'margin-bottom':'10px',
+      'font-size': '24px',
+      'line-height': '30px'
+}
 
 class PlaylistCounter extends Component{
   render(){
+    let playlistCounterStyle= counterStyle
     return(
-      <div style={{...defaultStyle, width: "40%", display: "inline-block"}}>
+      <div style={playlistCounterStyle}>
         <h2>{this.props.playlists.length} plejlisty</h2>
       </div>
     );
@@ -57,8 +37,12 @@ class HoursCounter extends Component{
     let totalDuration = allSongs.reduce((sum, eachSong) =>{
       return Math.round((sum + eachSong.duration)/60)
     }, [])
+    let isTooLow = totalDuration < 5
+    let hoursCounterStyle = {...counterStyle,
+        color: isTooLow ? 'red' : 'white',
+        'font-weight': isTooLow ? 'bold' : 'normal'}
     return(
-      <div style={{width: "40%", display: "inline-block"}}>
+      <div style={hoursCounterStyle}>
         <h2>{totalDuration} godzinek</h2>
       </div>
     );
@@ -71,7 +55,12 @@ class Filter extends Component{
       <div>
         <img/>
         <input type="text" onKeyUp={event =>
-          this.props.onTextChange(event.target.value)}/>
+          this.props.onTextChange(event.target.value)}
+          style={{...defaultStyle,
+            padding: '10px',
+            'font-size': '20px',
+            color: 'black'
+          }}/>
       </div>
     );
   }
@@ -81,12 +70,19 @@ class Playlist extends Component{
   render(){
     let playlist = this.props.playlist;
     return(
-      <div style ={{...defaultStyle, width : '25%', display: 'inline-block'}}>
-        <img src={playlist.imageUrl}/>
+      <div style ={{...defaultStyle,
+        width : '25%',
+        display: 'inline-block',
+        padding: '10px',
+        'background-color': this.props.index %2 ? 'pink' : 'green'
+      }}>
+        <img src={playlist.imageUrl} style={{width: '60px'}}/>
         <h3>{playlist.name}</h3>
-          <ul>
+          <ul style={{'margin-top': '10px'}}>
             {playlist.songs.map( song =>
-            <li>{song.name}</li>
+            <li style={{'padding-top' : '2px',
+                        'font-weight': 'bold'}}>
+            {song.name}</li>
             )}
           </ul>
       </div>
@@ -176,7 +172,11 @@ class App extends Component {
       <div className="App">
       {this.state.user ? //If the data will be fetched, display whole site
       <div>
-      <h1>
+      <h1
+      style={{...defaultStyle,
+              'font-size': '54px',
+              'margin-top' : '5px',
+            }}>
       {//if we have the user, it will get the user name
       this.state.user.name
       }'s plejlisty</h1>
@@ -187,8 +187,8 @@ class App extends Component {
       playlists={playlistsToRender}/>}
       <Filter onTextChange={text => this.setState({filterString: text})}/>
       {//map - it does for each, but with rendering a new object based on transformation we've specified
-        playlistsToRender.map((playlist) =>
-          <Playlist playlist={playlist}/>
+        playlistsToRender.map((playlist, i) =>
+          <Playlist playlist={playlist} index = {i}/>
         )} 
       </div> : <button onClick={()=> {
         window.location = window.location.href.includes('localhost') ?
