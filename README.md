@@ -3,8 +3,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 BTW:
 To run on dev:
-Open two terminal screens and npm start on localhost:3000
-after that, set on the second SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET and then npm start on localhost:8888
+1. Open two terminal screens
+2. On first npm start on localhost:3000
+3. On second set ids 
+  export SPOTIFY_CLIENT_ID="id from spotify" and 
+  export SPOTIFY_CLIENT_SECRET="id from spotify" 
+4. On secondnpm start on localhost:8888
 
 
 Below you will find some information on how to perform common tasks.<br>
