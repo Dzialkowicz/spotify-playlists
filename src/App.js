@@ -158,7 +158,11 @@ class App extends Component {
         playlistsToRender.map((playlist) =>
           <Playlist playlist={playlist}/>
         )} 
-      </div> : <button onClick={()=> window.location = 'http://localhost:8888/login'}
+      </div> : <button onClick={()=> {
+        window.location = window.location.includes('localhost') ?
+         'http://localhost:8888/login' :
+          'https://react-spotify-playlists.herokuapp.com/login' }
+        }
        style={{padding: '20px', 'fontSize':'50px', 'marginTop' : '20px'}}>Sign to Spotify</button> //Display Loading if data is not fetched yet
       }
       </div>
